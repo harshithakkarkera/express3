@@ -53,7 +53,44 @@ fs.writeFile(`${__dirname}/data/weather.json`,JSON.stringify(weather),(err)=>{
     )   
 })
 }
+exports.add = (req,res)=>{
+    const cityname = req.body.city.name;
+    const cityData = weather.find(wet=>wet.city.name === cityname)
+    
+    if(!cityData){
+        return res.status(404)
+            .json({
+                status :"City not found",
+                desc: "City name is invalid please check again"
+            })
+    }
 
+    const cityWeather = {name :cityname}
+    const accessToken =jwt.sign(cityWeather, process.env.SECRET_KEY)
+    res.status(200).json({
+        status: "Success",
+        accessToken: accessToken
+    });
+}
+
+exports.getdetails =(req,res) =>{
+    const cname =req.cityData.name
+    console.log(cname)
+    const cityDetails = weather.find(wet=>wet.city.name === cname)
+    if(!cityDetails) {
+        return res.status(404)
+        .json({
+            status :"City not found"
+            
+        })
+    }
+    res.status(201).json({
+        status:"Success",
+        data: {cityinfo : cityDetails
+        }
+    })
+
+}
 exports.deleteCity = (req,res)=>{
     const cityname = req.params.name
     const index = weather.findIndex(wet=>wet.city.name ===cityname)
