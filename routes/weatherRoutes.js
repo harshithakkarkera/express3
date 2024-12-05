@@ -1,5 +1,6 @@
 const express=require('express')
 const weatherCont =require('./../weatherController')
+const authMiddleware =require("../middleware/authentication")
 
 const router =express.Router()
 router.route("/").get(weatherCont.getAllCity).post(weatherCont.addCity)
