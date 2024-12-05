@@ -1,5 +1,6 @@
 const fs =require('fs')
 const weather= require('./weatherModel')
+const jwt =require('jsonwebtoken')
 
 exports.getAllCity = (req, res)=>{
     console.log("Request received:", req.body); 
